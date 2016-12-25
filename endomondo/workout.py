@@ -2,7 +2,7 @@
 
 from .utils import str_to_datetime
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 PRIVACY_PUBLIC	= 0
@@ -157,8 +157,7 @@ class Workout(object):
 		#super(Workout, self).__init__()
 
 		properties.setdefault('start_time', datetime.utcnow())
-
-		if properties.has_key('sport'):
+		if 'sport' in properties:
 			properties.setdefault('name', sports.get(properties['sport']))
 
 		for key in properties:
@@ -196,6 +195,11 @@ class Workout(object):
 	@duration.setter
 	def duration(self, value):
 		self._duration = int(value)
+
+	@property
+	def end_time(self):
+		return self.start_time + timedelta(0, self.duration)
+
 
 	@property
 	def start_time(self):
@@ -274,5 +278,4 @@ class TrackPoint(object):
 			self._time = str_to_datetime(value)
 
 		return self._time
-
 
